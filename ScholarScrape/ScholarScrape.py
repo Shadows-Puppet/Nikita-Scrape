@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import requests
-# import pandas
+import numpy as np
+import pandas as pd
 
-url = 'https://scholar.google.ca/scholar?hl=en&as_sdt=0%2C5&q=Machine+learning&btnG='
+url = 'https://scholar.google.ca/scholar?hl=en&as_sdt=0%2C5&q=machine+learning&btnG='
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 '
@@ -13,11 +14,12 @@ headers = {
 req = Request(url, headers=headers)
 webpage = urlopen(req).read()
 
+
 with requests.Session() as sesh:
     soup = BeautifulSoup(webpage, 'html5lib')
     titles = []
     links = []
-    authors = [[]]
+    authors = []
     descriptions = []
     pdf_links_raw = []
     pdf_links = []
@@ -56,5 +58,19 @@ with requests.Session() as sesh:
             pdf_links.append(i.find('a').get('href'))
         else:
             pdf_links.append('')
-    for i in descriptions:
+    authors_str = [', '.join(authors_list) for authors_list in authors]
+    for i in authors:
         print(i)
+
+    print(len(titles), len(descriptions),len(authors), len(links), len(pdf_links), len(source_year), len(host_publisher))
+    data = {'Title': titles,
+            'Description': descriptions,
+            'Authors': authors_str,
+            'Hyperlink': links,
+            'Document': pdf_links,
+            'Source and/or Year': source_year,
+            'Host/Publisher': host_publisher}
+
+    df = pd.DataFrame(data)
+
+    df.to_csv('testing.csv')
