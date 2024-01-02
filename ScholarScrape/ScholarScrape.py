@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import requests
-import pandas
+# import pandas
 
 url = 'https://scholar.google.ca/scholar?hl=en&as_sdt=0%2C5&q=Machine+learning&btnG='
 
