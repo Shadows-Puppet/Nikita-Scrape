@@ -1,0 +1,1 @@
+A simple data scraper implemented in python using the BeautifulSoup and requests APIs. Main file located in \ScholarScrape\ScholarScrape.py. Currently is able to grab the title, hyperlink, link to pdf(if present), authors, publication info, and description for each result in the first page of results. Pagination will be implemented in the future.
