@@ -21,7 +21,8 @@ url = 'https://scholar.google.ca/scholar?start=0&q=machine+learning&hl=en&as_sdt
 current_url = url
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 '
+                  'Safari/605.1.15'
 }
 
 start = 10
@@ -42,18 +43,13 @@ for i in range(10):
     except HTTPError as e:
         print(f"HTTP Error {e.code}: {e.reason}")
 
-        # Access the headers of the error response
         error_headers = e.headers
 
-        # Check if the 'Retry-After' header is present
         if 'Retry-After' in error_headers:
             retry_after_value = error_headers['Retry-After']
             print(f"Retry-After: {retry_after_value} seconds")
         else:
             print("Retry-After header not found.")
-    #req = Request(current_url, headers=headers)
-
-
 
     with requests.Session() as sesh:
         soup = BeautifulSoup(webpage, 'html5lib')
@@ -108,4 +104,3 @@ data = {'Title': titles,
 df = pd.DataFrame(data)
 
 df.to_csv('testing.csv')
-
